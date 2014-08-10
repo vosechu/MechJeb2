@@ -1,6 +1,6 @@
 # Makefile for building MechJeb
 
-KSPDIR := ${HOME}/.local/share/Steam/SteamApps/common/Kerbal\ Space\ Program
+KSPDIR  := ${HOME}/.local/share/Steam/SteamApps/common/Kerbal\ Space\ Program
 MANAGED := ${KSPDIR}/KSP_Data/Managed/
 
 MECHJEBFILES := $(wildcard MechJeb2/*.cs) \
