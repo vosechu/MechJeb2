@@ -1,7 +1,18 @@
 # Makefile for building MechJeb
 
-KSPDIR  := ${HOME}/.local/share/Steam/SteamApps/common/Kerbal\ Space\ Program
-MANAGED := ${KSPDIR}/KSP_Data/Managed/
+ifeq ($(OS),Windows_NT)
+	# do 'Doze stuff
+else
+	UNAME_S := $(shell uname -s)
+	ifeq ($(UNAME_S),Linux)
+		KSPDIR := ${HOME}/.steam/SteamApps/common/Kerbal\ Space\ Program
+		MANAGED := ${KSPDIR}/KSP_Data/Managed/
+	endif
+	ifeq ($(UNAME_S),Darwin)
+		KSPDIR  := ${HOME}/Library/Application\ Support/Steam/SteamApps/common/Kerbal\ Space\ Program
+		MANAGED := ${KSPDIR}/KSP.app/Contents/Data/Managed/
+	endif
+endif
 
 MECHJEBFILES := $(wildcard MechJeb2/*.cs) \
 	$(wildcard MechJeb2/Properties/*.cs) \
@@ -42,7 +53,7 @@ package: build ${MECHJEBFILES}
 	mkdir -p package/MechJeb2/Plugins
 	cp -r Parts package/MechJeb2/
 	cp build/MechJeb2.dll package/MechJeb2/Plugins/
-	cp LICENSE.md README.md package/MechJeb2/
+	cp LICENSE.md README.md MechJeb2.version package/MechJeb2/
 
 %.tar.gz:
 	${TAR} zcf $@ package/MechJeb2
